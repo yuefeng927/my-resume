@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% extends "home-base.html"%}
+{% block title %}All Courses{% endblock %}
+{% block head%}
+  {{ super() }}
+{% endblock%}
+{% block page_content%}
+
+  <!-- Page Content -->
+  <div class="container">
+    <h1 class="mt-5"> <i class="fa fa-search-plus" aria-hidden="true"></i> Browse All Courses:</h1>
+    <ul>
+        {% for course in courses %}
+          <li> <a id="myLink" data-toggle="modal" href="#myModal" class="button">{{course}}</a></li>
+        {% endfor%}
+    </ul>
+
+  </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">My Courses</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>MISY350:</h5> Covers concepts related to client side development, including cascading style sheets and JavaScript.<br><br>
+        <h5>ACCT315:</h5> In-depth coverage of financial accounting. Topics include: environment and conceptual framework of financial accounting.<br><br>
+        <h5>HIST103:</h5> Principal political, economic, cultural and social developments in world history through the 16th century, relating the past to the present. Equal weight given to the history of Asia, Africa, the Americas and Europe.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/courses-all.js"></script>
+
+{% endblock%}
