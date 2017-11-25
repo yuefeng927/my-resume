@@ -1,0 +1,43 @@
+{% extends "home-base.html"%}
+{% block title %}All Courses{% endblock %}
+{% block head%}
+  {{ super() }}
+{% endblock%}
+{% block page_content%}
+
+<!-- Page Content -->
+<div class="container">
+  <h1 class="mt-5"><i class="fa fa-search-plus" aria-hidden="true"></i> Edit Course:</h1>
+  <form action="/courses/edit/{{courses.num}}" method="post">
+    <div class="form-group">
+      <label>Course Number</label>
+      <input class="form-control" type="text" name="num" value="{{courses.num}}" required="true">
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      <input class="form-control" type="text" name="title" value="{{courses.title}}" required="true">
+    </div>
+    <div class="form-group">
+      <label>Professor</label>
+      <select class="form-control" name="professor">
+        {% for professor in professors %}
+          {% if professor == courses.professor %}
+            <option selected="selected">{{professor.name}}</option>
+          {% else %}
+            <option>{{professor.name}}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      Professor not in the list? <a href="/professor/add" class="btn btn-success" role="button" aria-disabled="true">Add Professors</a>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea class="form-control" name="description" required="true">{{courses.description}}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </form>
+</div>
+
+{% endblock%}

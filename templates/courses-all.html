@@ -8,36 +8,66 @@
   <!-- Page Content -->
   <div class="container">
     <h1 class="mt-5"> <i class="fa fa-search-plus" aria-hidden="true"></i> Browse All Courses:</h1>
-    <ul>
-        {% for course in courses %}
-          <li> <a id="myLink" data-toggle="modal" href="#myModal" class="button">{{course}}</a></li>
-        {% endfor%}
-    </ul>
-
-  </div>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">My Courses</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <h5>MISY350:</h5> Covers concepts related to client side development, including cascading style sheets and JavaScript.<br><br>
-        <h5>ACCT315:</h5> In-depth coverage of financial accounting. Topics include: environment and conceptual framework of financial accounting.<br><br>
-        <h5>HIST103:</h5> Principal political, economic, cultural and social developments in world history through the 16th century, relating the past to the present. Equal weight given to the history of Asia, Africa, the Americas and Europe.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+    <div class="row bottom-margin">
+      <a href="/courses/add" class="btn btn-primary" role="button" aria-disabled="true">Add Courses</a>
     </div>
-  </div>
-</div>
+    <br>
+    {% if courses %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Title</th>
+            <th></th>
+            <th>Professor</th>
+            <th>description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for courses in courses %}
+          <tr>
+              <th scope="row">{{courses.num}}</th>
+              <td>{{courses.title}}</td>
+              <td>{{courses.year}}</td>
+              <td>{{courses.professor.name}}</td>
+              <td>
+                <!--  view description button trigger modal -->
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{courses.num}}">
+                  View
+                </button>
 
-<script src="js/courses-all.js"></script>
+                <!-- Modal -->
+                <div class="modal fade" id="{{courses.num}}" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">{{courses.num}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        {{courses.description}}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </td>
+                <td>
+                  <a href="/courses/edit/{{courses.num}}" class="btn btn-success" role="button" aria-disabled="true">Edit</a>
+                </td>
+            </tr>
 
-{% endblock%}
+            {% endfor%}
+          </tbody>
+        </table>
+      {% else %}
+        <h3>There are no course in the database yet.</h3>
+      {% endif %}
+    </div>
+
+  {% endblock%}
