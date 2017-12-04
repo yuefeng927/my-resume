@@ -30,6 +30,7 @@
             <td>{{professor.department}}</td>
             <td>
               <a href="/professor/edit/{{professor.id}}" class="btn btn-success" role="button" aria-disabled="true">Edit</a>
+              <a href="/professor/delete/{{professor.id}}" class="btn btn-danger" role="button">Delete</a>
             </td>
         </tr>
         {% endfor%}
@@ -40,4 +41,62 @@
   {% endif %}
 </div>
 
+{% endblock%}
+
+
+
+{% block scripts%}
+{{super()}}
+<script>
+  $(document).ready(function() {
+    $(".delete_ajax_btn").click(function(event) {
+      var professor_id = $(this).data("professor-id");
+      // get the table row of this song
+      var row = $(this).parent().parent();
+      swal({
+          title: "Are you sure?",
+          text: "All courses of this professor will be deleted too!",
+          type: "warning",
+          html: true,
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: false,
+          showLoaderOnConfirm: true
+        },
+        function(isConfirm) {
+          if (isConfirm) {
+            var data = {
+              professor_id: professor_id
+            };
+            $.ajax({
+                type: "DELETE",
+                url: "/api/artist/" + artist_id,
+                success: function(response) {
+                  console.log(response);
+                  row.remove(); // remove the table row
+                  swal({
+                    title: "Deleted!",
+                    text: response.name + " has been deleted.",
+                    type: "success",
+                    timer: 2500,
+                    showConfirmButton: false
+                  }); // end of SweetAlert
+                } // end of success callback function
+              }) // end of ajax call
+              .fail(function(error) {
+                // console.log(data);
+                swal({
+                  title: "Oops...",
+                  text: "Deletion failed",
+                  type: "error",
+                  timer: 2000,
+                  showConfirmButton: false
+                }); // end of SweetAlert
+              }); // end of fail callback function
+          } // end of if confirmed block
+        }); // end of confirmed function of SweetAlert
+    }); // end of button click event function
+  }); // end doc ready
+</script>
 {% endblock%}
